@@ -223,7 +223,7 @@ export async function getMemberWithDetails(memberId: number) {
     .limit(1);
 
   // Get partners in current match
-  let partners = [];
+  let partners: any[] = [];
   if (matchInfo.length > 0) {
     const matchId = matchInfo[0].match.id;
     const partnerData = await db

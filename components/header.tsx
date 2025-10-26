@@ -76,7 +76,7 @@ function UserMenu() {
                   .split(" ")
                   .filter(Boolean)
                   .slice(0, 2)
-                  .map((n) => n[0]?.toUpperCase() || "")
+                  .map((n: string) => n[0]?.toUpperCase() || "")
                   .join("")
               : user.email && user.email.includes("@")
               ? (user.email.split("@")[0][0] || "U").toUpperCase()

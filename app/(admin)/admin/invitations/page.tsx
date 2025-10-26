@@ -74,7 +74,7 @@ export default function InvitationsPage() {
       );
     }
 
-    const badges: Record<string, JSX.Element> = {
+    const badges: Record<string, React.ReactElement> = {
       pending: (
         <span className="px-2 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
           Pending

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
 import { members, goals } from "@/lib/db/schema";
 import { sendEmail } from "@/lib/email/service";
-import { eq, ne } from "drizzle-orm";
+import { eq, ne, and } from "drizzle-orm";
 
 // GET /api/cron/reflections - Send reflection prompts to all active members
 // Schedule: Every Wednesday at 12:00 PM
@@ -37,8 +37,7 @@ export async function GET(request: NextRequest) {
         const [goal] = await db
           .select()
           .from(goals)
-          .where(eq(goals.memberId, member.id))
-          .where(eq(goals.status, "active"))
+          .where(and(eq(goals.memberId, member.id), eq(goals.status, "active")))
           .limit(1);
 
         await sendEmail({

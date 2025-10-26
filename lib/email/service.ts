@@ -4,9 +4,12 @@ import { eq } from "drizzle-orm";
 
 interface SendEmailParams {
   to: string;
-  templateType: string;
-  variables: Record<string, string>;
+  templateType?: string;
+  variables?: Record<string, string>;
   memberId?: number;
+  subject?: string;
+  html?: string;
+  text?: string;
 }
 
 // Replace template variables like {{memberName}} with actual values
@@ -25,25 +28,35 @@ function replaceVariables(
 export async function sendEmail({
   to,
   templateType,
-  variables,
+  variables = {},
   memberId,
+  subject: customSubject,
+  html: customHtml,
+  text: customText,
 }: SendEmailParams) {
   try {
-    // Get email template
-    const [template] = await db
-      .select()
-      .from(emailTemplates)
-      .where(eq(emailTemplates.templateType, templateType))
-      .limit(1);
+    let emailSubject = customSubject;
+    let bodyHtml = customHtml;
+    let bodyText = customText;
 
-    if (!template) {
-      throw new Error(`Email template not found: ${templateType}`);
+    // If using template
+    if (templateType && !customSubject && !customHtml) {
+      // Get email template
+      const [template] = await db
+        .select()
+        .from(emailTemplates)
+        .where(eq(emailTemplates.templateType, templateType))
+        .limit(1);
+
+      if (!template) {
+        throw new Error(`Email template not found: ${templateType}`);
+      }
+
+      // Replace variables in subject and body
+      emailSubject = replaceVariables(template.subject, variables);
+      bodyHtml = replaceVariables(template.bodyHtml, variables);
+      bodyText = replaceVariables(template.bodyText, variables);
     }
-
-    // Replace variables in subject and body
-    const subject = replaceVariables(template.subject, variables);
-    const bodyHtml = replaceVariables(template.bodyHtml, variables);
-    const bodyText = replaceVariables(template.bodyText, variables);
 
     // Check if SendGrid is configured
     const sendGridApiKey = process.env.SENDGRID_API_KEY;
@@ -66,10 +79,10 @@ export async function sendEmail({
           body: JSON.stringify({
             personalizations: [{ to: [{ email: to }] }],
             from: { email: fromAddress, name: fromName },
-            subject,
+            subject: emailSubject,
             content: [
-              { type: "text/plain", value: bodyText },
-              { type: "text/html", value: bodyHtml },
+              { type: "text/plain", value: bodyText || "" },
+              { type: "text/html", value: bodyHtml || "" },
             ],
           }),
         });
@@ -90,10 +103,10 @@ export async function sendEmail({
       console.log("\n📧 EMAIL (Development Mode - SendGrid not configured)");
       console.log("=====================================");
       console.log(`To: ${to}`);
-      console.log(`Subject: ${subject}`);
-      console.log(`Template: ${templateType}`);
+      console.log(`Subject: ${emailSubject}`);
+      console.log(`Template: ${templateType || "custom"}`);
       console.log("-------------------------------------");
-      console.log(bodyText);
+      console.log(bodyText || bodyHtml);
       console.log("=====================================\n");
     }
 
@@ -101,13 +114,13 @@ export async function sendEmail({
     await db.insert(emailLogs).values({
       recipientEmail: to,
       memberId,
-      templateType,
-      subject,
+      templateType: templateType || "custom",
+      subject: emailSubject || "No subject",
       status: emailStatus,
       errorMessage,
     });
 
-    return { success: emailStatus === "sent", subject };
+    return { success: emailStatus === "sent", subject: emailSubject };
   } catch (error: any) {
     console.error("Error sending email:", error);
 
@@ -115,8 +128,8 @@ export async function sendEmail({
     await db.insert(emailLogs).values({
       recipientEmail: to,
       memberId,
-      templateType,
-      subject: `Failed: ${templateType}`,
+      templateType: templateType || "custom",
+      subject: `Failed: ${templateType || "custom"}`,
       status: "failed",
       errorMessage: error.message,
     });

@@ -19,19 +19,26 @@ import {
   Settings,
   type LucideIcon,
 } from "lucide-react";
-import { ActivityType } from "@/lib/db/schema";
+// Activity types (would normally be imported from schema, but using inline for now)
+type ActivityType =
+  | "sign_up"
+  | "sign_in"
+  | "sign_out"
+  | "update_password"
+  | "delete_account"
+  | "update_account"
+  | "sent_invitation"
+  | "verified_email";
 
 const iconMap: Record<ActivityType, LucideIcon> = {
-  [ActivityType.SIGN_UP]: UserPlus,
-  [ActivityType.SIGN_IN]: UserCog,
-  [ActivityType.SIGN_OUT]: LogOut,
-  [ActivityType.UPDATE_PASSWORD]: Lock,
-  [ActivityType.DELETE_ACCOUNT]: UserMinus,
-  [ActivityType.UPDATE_ACCOUNT]: Settings,
-  [ActivityType.CREATE_TEAM]: UserPlus,
-  [ActivityType.REMOVE_TEAM_MEMBER]: UserMinus,
-  [ActivityType.INVITE_TEAM_MEMBER]: Mail,
-  [ActivityType.ACCEPT_INVITATION]: CheckCircle,
+  sign_up: UserPlus,
+  sign_in: UserCog,
+  sign_out: LogOut,
+  update_password: Lock,
+  delete_account: UserMinus,
+  update_account: Settings,
+  sent_invitation: Mail,
+  verified_email: CheckCircle,
 };
 
 function getRelativeTime(date: Date) {
@@ -49,26 +56,22 @@ function getRelativeTime(date: Date) {
 
 function formatAction(action: ActivityType): string {
   switch (action) {
-    case ActivityType.SIGN_UP:
+    case "sign_up":
       return "You signed up";
-    case ActivityType.SIGN_IN:
+    case "sign_in":
       return "You signed in";
-    case ActivityType.SIGN_OUT:
+    case "sign_out":
       return "You signed out";
-    case ActivityType.UPDATE_PASSWORD:
+    case "update_password":
       return "Password changed";
-    case ActivityType.DELETE_ACCOUNT:
+    case "delete_account":
       return "Account deleted";
-    case ActivityType.UPDATE_ACCOUNT:
+    case "update_account":
       return "Account updated";
-    case ActivityType.CREATE_TEAM:
-      return "Team created";
-    case ActivityType.REMOVE_TEAM_MEMBER:
-      return "Team member removed";
-    case ActivityType.INVITE_TEAM_MEMBER:
-      return "Team member invited";
-    case ActivityType.ACCEPT_INVITATION:
-      return "Invitation accepted";
+    case "sent_invitation":
+      return "Invitation sent";
+    case "verified_email":
+      return "Email verified";
     default:
       return "Unknown action";
   }

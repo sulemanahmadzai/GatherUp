@@ -25,7 +25,7 @@ export default function MatchPage() {
   const { currentMatch, partners } = data;
 
   const getCommunicationIcon = (method: string) => {
-    const icons: Record<string, JSX.Element> = {
+    const icons: Record<string, React.ReactElement> = {
       email: <Mail className="w-5 h-5" />,
       text: <MessageSquare className="w-5 h-5" />,
       phone: <Phone className="w-5 h-5" />,

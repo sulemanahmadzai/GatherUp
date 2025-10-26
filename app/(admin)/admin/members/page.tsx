@@ -38,7 +38,7 @@ export default function MembersPage() {
   } = useSWR(`/api/members${queryString ? `?${queryString}` : ""}`, fetcher);
 
   const getStatusBadge = (status: string) => {
-    const badges: Record<string, JSX.Element> = {
+    const badges: Record<string, React.ReactElement> = {
       pending: (
         <span className="px-2 py-1 text-xs rounded-full bg-gray-200 text-gray-700">
           Pending
@@ -96,7 +96,7 @@ export default function MembersPage() {
 
     const csvContent = [
       headers.join(","),
-      ...rows.map((row) => row.map((cell) => `"${cell}"`).join(",")),
+      ...rows.map((row: string[]) => row.map((cell) => `"${cell}"`).join(",")),
     ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv" });

@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
     const matchesData = await getAllMatches();
 
     // Optionally include unmatched members
-    let unmatchedMembers = [];
+    let unmatchedMembers: any[] = [];
     if (includeUnmatched) {
       unmatchedMembers = await getUnmatchedMembers();
     }

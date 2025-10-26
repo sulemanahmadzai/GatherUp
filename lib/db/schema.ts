@@ -187,6 +187,26 @@ export const progressUpdates = pgTable("progress_updates", {
 });
 
 // ============================================
+// BOOKINGS TABLE
+// ============================================
+export const bookings = pgTable("bookings", {
+  id: serial("id").primaryKey(),
+  firstName: varchar("first_name", { length: 255 }).notNull(),
+  lastName: varchar("last_name", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 50 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  carReg: varchar("car_reg", { length: 20 }).notNull(),
+  services: jsonb("services").$type<string[]>().notNull(),
+  bookDate: varchar("book_date", { length: 50 }).notNull(),
+  bookTime: varchar("book_time", { length: 50 }).notNull(),
+  message: text("message"),
+  status: varchar("status", { length: 20 }).notNull().default("pending"), // pending/confirmed/completed/cancelled
+
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// ============================================
 // RELATIONS
 // ============================================
 export const membersRelations = relations(members, ({ many }) => ({
@@ -270,3 +290,5 @@ export type EmailLog = typeof emailLogs.$inferSelect;
 export type NewEmailLog = typeof emailLogs.$inferInsert;
 export type ProgressUpdate = typeof progressUpdates.$inferSelect;
 export type NewProgressUpdate = typeof progressUpdates.$inferInsert;
+export type Booking = typeof bookings.$inferSelect;
+export type NewBooking = typeof bookings.$inferInsert;

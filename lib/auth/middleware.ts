@@ -1,7 +1,9 @@
 import { z } from "zod";
-import { User } from "@/lib/db/schema";
+import { Admin, Member } from "@/lib/db/schema";
 import { getUser } from "@/lib/db/queries";
 import { redirect } from "next/navigation";
+
+type User = (Admin | Member) & { role: string };
 
 export type ActionState = {
   error?: string;

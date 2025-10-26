@@ -12,7 +12,6 @@ import {
   DollarSign,
   Mail,
   Calendar,
-  UserCircle,
 } from "lucide-react";
 
 interface MenuItem {
@@ -27,11 +26,6 @@ const menuItems: MenuItem[] = [
     title: "Dashboard",
     href: "/dashboard",
     icon: <LayoutDashboard className="w-5 h-5" />,
-  },
-  {
-    title: "Staff",
-    href: "/dashboard/staff",
-    icon: <UserCircle className="w-5 h-5" />,
   },
   {
     title: "Bookings",

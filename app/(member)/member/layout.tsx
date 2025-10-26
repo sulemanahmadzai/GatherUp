@@ -13,7 +13,9 @@ export default async function MemberDashboardLayout({
   console.log(
     "[MemberLayout] Member data:",
     member
-      ? `ID: ${member.id}, Email: ${member.email}, Status: ${member.status}`
+      ? `ID: ${member.id}, Email: ${member.email}, Status: ${
+          (member as any).status || "N/A"
+        }`
       : "NULL"
   );
 
@@ -23,7 +25,7 @@ export default async function MemberDashboardLayout({
   }
 
   // Redirect to onboarding if member hasn't completed it yet
-  if (member.status === "pending") {
+  if ((member as any).status === "pending") {
     console.log(
       "[MemberLayout] Member has pending status, redirecting to onboarding"
     );

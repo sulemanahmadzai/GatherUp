@@ -44,7 +44,7 @@ export default function MemberDashboardPage() {
   const { member, goal, currentMatch, partners, progressHistory } = data;
 
   const getCommunicationIcon = (method: string) => {
-    const icons: Record<string, JSX.Element> = {
+    const icons: Record<string, React.ReactElement> = {
       email: <Mail className="w-4 h-4" />,
       text: <MessageSquare className="w-4 h-4" />,
       phone: <Phone className="w-4 h-4" />,
@@ -54,7 +54,7 @@ export default function MemberDashboardPage() {
   };
 
   const getStatusBadge = (status: string) => {
-    const badges: Record<string, JSX.Element> = {
+    const badges: Record<string, React.ReactElement> = {
       pending: (
         <span className="px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700">
           Pending Setup

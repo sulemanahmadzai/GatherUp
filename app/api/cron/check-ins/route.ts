@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db/drizzle";
 import { members, goals, matches, matchMembers } from "@/lib/db/schema";
 import { sendEmail } from "@/lib/email/service";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 // GET /api/cron/check-ins - Send check-in reminders to matched members
 // Schedule: Every Monday and Thursday at 9:00 AM
@@ -37,8 +37,7 @@ export async function GET(request: NextRequest) {
         const [goal] = await db
           .select()
           .from(goals)
-          .where(eq(goals.memberId, member.id))
-          .where(eq(goals.status, "active"))
+          .where(and(eq(goals.memberId, member.id), eq(goals.status, "active")))
           .limit(1);
 
         // Get partner info

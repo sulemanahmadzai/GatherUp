@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 // PATCH /api/email-templates/[id] - Update email template
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getUser();
@@ -16,7 +16,8 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const templateId = parseInt(params.id);
+    const { id } = await params;
+    const templateId = parseInt(id);
     const body = await request.json();
     const {
       name,
@@ -63,7 +64,7 @@ export async function PATCH(
 // DELETE /api/email-templates/[id] - Delete email template
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const user = await getUser();
@@ -72,7 +73,8 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const templateId = parseInt(params.id);
+    const { id } = await params;
+    const templateId = parseInt(id);
 
     await db.delete(emailTemplates).where(eq(emailTemplates.id, templateId));
 

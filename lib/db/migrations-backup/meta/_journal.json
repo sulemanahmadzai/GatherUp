@@ -1,0 +1,55 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1726443359662,
+      "tag": "0000_soft_the_anarchist",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1759174871825,
+      "tag": "0001_striped_quasimodo",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1759255974477,
+      "tag": "0002_nervous_wiccan",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1759265459011,
+      "tag": "0003_sudden_dragon_lord",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1759614615954,
+      "tag": "0004_naive_tag",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1759835894722,
+      "tag": "0005_far_marvel_apes",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1759836992280,
+      "tag": "0006_modern_nekra",
+      "breakpoints": true
+    }
+  ]
+}

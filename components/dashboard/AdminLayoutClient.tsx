@@ -1,0 +1,85 @@
+"use client";
+
+import { ReactNode, useState } from "react";
+import { LogOut, Menu, X } from "lucide-react";
+import AdminNav from "./AdminNav";
+
+interface AdminLayoutClientProps {
+  admin: {
+    id: number;
+    name: string;
+    email: string;
+  };
+  children: ReactNode;
+}
+
+export default function AdminLayoutClient({
+  admin,
+  children,
+}: AdminLayoutClientProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  return (
+    <div className="flex h-screen bg-gray-50">
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-[#053D3D] text-white rounded-lg shadow-lg"
+        aria-label="Toggle menu"
+      >
+        {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </button>
+
+      {/* Overlay for mobile */}
+      {sidebarOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 z-30"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed lg:static inset-y-0 left-0 z-40
+          w-64 bg-[#053D3D] text-white flex flex-col
+          transform transition-transform duration-300 ease-in-out
+          ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          }
+        `}
+      >
+        <div className="p-6 border-b border-[#0a5555]">
+          <h1 className="text-2xl font-bold text-[#A6FF48]">GatherUp</h1>
+          <p className="text-sm text-gray-300 mt-1">Admin Dashboard</p>
+        </div>
+
+        <AdminNav onLinkClick={() => setSidebarOpen(false)} />
+
+        <div className="p-4 border-t border-[#0a5555] mt-auto">
+          <div className="px-4 py-3 bg-[#0a5555] rounded-lg mb-3">
+            <p className="text-sm text-gray-300">Logged in as</p>
+            <p className="font-medium truncate">{admin.name}</p>
+            <p className="text-xs text-gray-400 truncate">{admin.email}</p>
+          </div>
+          <form action="/api/auth/signout" method="POST">
+            <button
+              type="submit"
+              className="flex items-center gap-2 px-4 py-2 w-full rounded-lg hover:bg-red-900/20 text-red-300 hover:text-red-200 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out</span>
+            </button>
+          </form>
+        </div>
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 overflow-auto w-full lg:w-auto">
+        <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 pt-16 lg:pt-8">
+          {children}
+        </div>
+      </main>
+    </div>
+  );
+}

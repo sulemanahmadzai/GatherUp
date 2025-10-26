@@ -20,16 +20,11 @@ export const CACHE_KEYS = {
   USER: (id: number, role: string) => `user:${role}:${id}`,
   USER_WITH_TEAM: (id: number) => `user_team:${id}`,
   TEAM_MEMBERS: (teamId: number) => `team_members:${teamId}`,
-  CUSTOMER_BY_ID: (id: number) => `customer:${id}`,
-  CUSTOMERS: (teamId: number, page: number, pageSize: number) =>
-    `customers:${teamId}:${page}:${pageSize}`,
-  CUSTOMERS_COUNT: (teamId: number) => `customers_count:${teamId}`,
   STAFF: (teamId: number, page: number, pageSize: number) =>
     `staff:${teamId}:${page}:${pageSize}`,
   STAFF_COUNT: (teamId: number) => `staff_count:${teamId}`,
   BOOKINGS: (page: number, pageSize: number) => `bookings:${page}:${pageSize}`,
   BOOKINGS_COUNT: () => `bookings_count`,
-  SERVICE_RECORDS: (customerId: number) => `service_records:${customerId}`,
   ACTIVITY_LOGS: (userId: number) => `activity_logs:${userId}`,
 };
 

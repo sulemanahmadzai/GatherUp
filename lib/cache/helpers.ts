@@ -119,9 +119,6 @@ export async function invalidateTeamCache(teamId: number): Promise<void> {
 
   try {
     await Promise.all([
-      deleteCachePattern(`customers:${teamId}:*`),
-      deleteCachePattern(`customers_count:${teamId}`),
-      deleteCachePattern(`customer:*`),
       deleteCachePattern(`staff:${teamId}:*`),
       deleteCachePattern(`staff_count:${teamId}`),
       deleteCachePattern(`team_members:${teamId}`),

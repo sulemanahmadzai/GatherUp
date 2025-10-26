@@ -5,14 +5,12 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
-  Users,
   Settings,
   ChevronRight,
   Home,
   Briefcase,
   DollarSign,
   Mail,
-  Wrench,
   Calendar,
   UserCircle,
 } from "lucide-react";
@@ -31,11 +29,6 @@ const menuItems: MenuItem[] = [
     icon: <LayoutDashboard className="w-5 h-5" />,
   },
   {
-    title: "Customers",
-    href: "/dashboard/customers",
-    icon: <Users className="w-5 h-5" />,
-  },
-  {
     title: "Staff",
     href: "/dashboard/staff",
     icon: <UserCircle className="w-5 h-5" />,
@@ -44,11 +37,6 @@ const menuItems: MenuItem[] = [
     title: "Bookings",
     href: "/dashboard/bookings",
     icon: <Calendar className="w-5 h-5" />,
-  },
-  {
-    title: "Service Records",
-    href: "/dashboard/service-records",
-    icon: <Wrench className="w-5 h-5" />,
   },
   {
     title: "Settings",

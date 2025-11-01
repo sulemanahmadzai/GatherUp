@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useState } from "react";
+import { useRouter } from "next/navigation";
 import { LogOut, Menu, X } from "lucide-react";
 import AdminNav from "./AdminNav";
 
@@ -18,6 +19,22 @@ export default function AdminLayoutClient({
   children,
 }: AdminLayoutClientProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      const response = await fetch("/api/auth/signout", {
+        method: "POST",
+      });
+      if (response.ok || response.status === 303) {
+        router.push("/sign-in");
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+      router.push("/sign-in");
+    }
+  };
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -62,15 +79,14 @@ export default function AdminLayoutClient({
             <p className="font-medium truncate">{admin.name}</p>
             <p className="text-xs text-gray-400 truncate">{admin.email}</p>
           </div>
-          <form action="/api/auth/signout" method="POST">
-            <button
-              type="submit"
-              className="flex items-center gap-2 px-4 py-2 w-full rounded-lg hover:bg-red-900/20 text-red-300 hover:text-red-200 transition-colors"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Sign Out</span>
-            </button>
-          </form>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="flex items-center gap-2 px-4 py-2 w-full rounded-lg hover:bg-red-900/20 text-red-300 hover:text-red-200 transition-colors"
+          >
+            <LogOut className="w-4 h-4" />
+            <span>Sign Out</span>
+          </button>
         </div>
       </aside>
 

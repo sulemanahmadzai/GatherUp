@@ -3,10 +3,12 @@ import { deleteSession } from "@/lib/auth/session";
 
 export async function POST(request: NextRequest) {
   await deleteSession();
-  return NextResponse.redirect(new URL("/sign-in", request.url));
+  const url = new URL("/sign-in", request.url);
+  return NextResponse.redirect(url, { status: 303 });
 }
 
 export async function GET(request: NextRequest) {
   await deleteSession();
-  return NextResponse.redirect(new URL("/sign-in", request.url));
+  const url = new URL("/sign-in", request.url);
+  return NextResponse.redirect(url, { status: 303 });
 }

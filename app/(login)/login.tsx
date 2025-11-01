@@ -2,10 +2,11 @@
 
 import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, Users, Target, TrendingUp } from "lucide-react";
+import { Loader2, Users, Target, TrendingUp, Home } from "lucide-react";
 import { signIn, signUp } from "./actions";
 import { ActionState } from "@/lib/auth/middleware";
 import { Card, CardContent } from "@/components/ui/card";
@@ -176,6 +177,17 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
               )}
             </Button>
           </form>
+
+          {/* Link to Home Page */}
+          <div className="mt-6 pt-6 border-t border-gray-200">
+            <Link
+              href="/"
+              className="flex items-center justify-center gap-2 text-sm text-gray-600 hover:text-[#053D3D] transition-colors"
+            >
+              <Home className="w-4 h-4" />
+              <span>Go to Home Page</span>
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>

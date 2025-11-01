@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useSWR from "swr";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -72,25 +72,40 @@ export default function MemberSettingsPage() {
 }
 
 function ProfileTab() {
-  const { data: member } = useSWR("/api/member/dashboard", fetcher);
+  const { data: member, mutate } = useSWR("/api/member/dashboard", fetcher);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   // Load member data when available
-  if (member && !name && !email) {
-    setName(member.member.name || "");
-    setEmail(member.member.email || "");
-  }
+  useEffect(() => {
+    if (member?.member && !dataLoaded) {
+      setName(member.member.name || "");
+      setEmail(member.member.email || "");
+      setPhoneNumber(member.member.phoneNumber || "");
+      setDataLoaded(true);
+    }
+  }, [member, dataLoaded]);
 
   const handleUpdateProfile = async () => {
     if (!name || !email) {
       alert("Please fill in name and email");
       return;
+    }
+
+    if (phoneNumber && phoneNumber.trim() !== "") {
+      // Check if phone number has at least 10 digits (allows formatting)
+      const digitsOnly = phoneNumber.replace(/\D/g, "");
+      if (digitsOnly.length < 10) {
+        alert("Phone number must contain at least 10 digits");
+        return;
+      }
     }
 
     setIsUpdating(true);
@@ -99,13 +114,17 @@ function ProfileTab() {
       const response = await fetch("/api/member", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify({ name, email, phoneNumber }),
       });
 
       if (response.ok) {
         alert("Profile updated successfully!");
+        // Refresh member data to show updated phone number
+        mutate();
+        setDataLoaded(false); // Allow reloading updated data
       } else {
-        alert("Failed to update profile");
+        const errorData = await response.json();
+        alert(errorData.error || "Failed to update profile");
       }
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -185,6 +204,19 @@ function ProfileTab() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your.email@example.com"
             />
+          </div>
+
+          <div>
+            <Label className="mb-2 block">Phone Number</Label>
+            <Input
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder="(555) 555-5555"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Your phone number will be shared with your accountability partner
+            </p>
           </div>
 
           <Button

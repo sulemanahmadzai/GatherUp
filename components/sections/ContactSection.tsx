@@ -84,7 +84,7 @@ export default function ContactSection() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-2 border-white text-white hover:bg-white hover:text-[#053D3D] px-10 py-7 text-xl font-semibold backdrop-blur-sm"
+                  className="border-2 border-white text-black hover:bg-gray-300 hover:text-[#053D3D] px-10 py-7 text-xl font-semibold backdrop-blur-sm"
                 >
                   Contact Us
                 </Button>

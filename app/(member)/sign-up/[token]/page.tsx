@@ -24,6 +24,7 @@ export default function SignUpPage({
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -75,6 +76,7 @@ export default function SignUpPage({
       const formData = new FormData();
       formData.append("name", name);
       formData.append("email", email);
+      formData.append("phoneNumber", phoneNumber);
       formData.append("password", password);
       formData.append("token", token);
 
@@ -183,6 +185,22 @@ export default function SignUpPage({
               />
               <p className="text-xs text-gray-500 mt-1">
                 This email is from your invitation
+              </p>
+            </div>
+
+            <div>
+              <Label htmlFor="phoneNumber">Phone Number</Label>
+              <Input
+                id="phoneNumber"
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="(555) 555-5555"
+                required
+                className="mt-1"
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Your phone number will be shared with your accountability partner
               </p>
             </div>
 

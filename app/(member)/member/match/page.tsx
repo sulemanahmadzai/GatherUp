@@ -90,6 +90,11 @@ export default function MatchPage() {
                       <p className="text-sm sm:text-base text-gray-600 break-all">
                         {partner.member.email}
                       </p>
+                      {partner.member.phoneNumber && (
+                        <p className="text-sm sm:text-base text-gray-600 break-all">
+                          {partner.member.phoneNumber}
+                        </p>
+                      )}
                     </div>
                     <div className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg flex-shrink-0">
                       {partner.member.preferredCommunication &&

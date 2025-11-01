@@ -269,6 +269,11 @@ export default function MemberDetailPage({
                           <p className="text-sm text-gray-600">
                             {partner.member.email}
                           </p>
+                          {partner.member.phoneNumber && (
+                            <p className="text-sm text-gray-600">
+                              {partner.member.phoneNumber}
+                            </p>
+                          )}
                           {partner.goal && (
                             <p className="text-xs text-gray-500 mt-1 capitalize">
                               Goal: {partner.goal.category}

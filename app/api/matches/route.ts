@@ -157,6 +157,7 @@ export async function POST(request: NextRequest) {
                         p.preferredCommunication || "Not specified"
                       }</p>
                       <p><strong>Email:</strong> ${p.email}</p>
+                      <p><strong>Phone Number:</strong> ${p.phoneNumber || "Not provided"}</p>
                     </div>
                   `
                     )

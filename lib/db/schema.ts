@@ -30,6 +30,7 @@ export const members = pgTable("members", {
   email: varchar("email", { length: 255 }).notNull().unique(),
   passwordHash: text("password_hash").notNull(),
   name: varchar("name", { length: 255 }).notNull(),
+  phoneNumber: varchar("phone_number", { length: 50 }),
 
   // Onboarding preferences
   preferredCommunication: varchar("preferred_communication", { length: 50 }), // email/text/phone/in-person

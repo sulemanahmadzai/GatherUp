@@ -39,7 +39,7 @@ export function Login({ mode = "signin" }: { mode?: "signin" | "signup" }) {
             <h1 className="text-3xl font-bold text-[#053D3D] mb-2">GatherUp</h1>
             <p className="text-gray-600 text-sm">
               {mode === "signin"
-                ? "Welcome back! Sign in to continue your accountability journey"
+                ? "Welcome! Sign in to start"
                 : "Join GatherUp and start your accountability journey today"}
             </p>
           </div>

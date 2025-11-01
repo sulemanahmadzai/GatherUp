@@ -199,6 +199,11 @@ export default function MemberDashboardPage() {
                         <p className="text-sm text-gray-600 mb-1">
                           {partner.member.email}
                         </p>
+                        {partner.member.phoneNumber && (
+                          <p className="text-sm text-gray-600 mb-1">
+                            {partner.member.phoneNumber}
+                          </p>
+                        )}
                         {partner.goal && (
                           <p className="text-xs text-gray-500 mt-2">
                             <span className="font-medium">Goal:</span>{" "}

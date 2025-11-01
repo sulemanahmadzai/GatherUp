@@ -15,14 +15,26 @@ export async function PATCH(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, email } = body;
+    const { name, email, phoneNumber } = body;
 
     // Validation
-    if (!name && !email) {
+    if (!name && !email && !phoneNumber) {
       return NextResponse.json(
         { error: "No fields to update" },
         { status: 400 }
       );
+    }
+
+    // Validate phone number if provided (allow empty string to clear it)
+    if (phoneNumber !== undefined && phoneNumber !== null && phoneNumber !== "") {
+      // Remove any non-digit characters for validation (allow formatting but check actual digits)
+      const digitsOnly = phoneNumber.replace(/\D/g, "");
+      if (digitsOnly.length < 10) {
+        return NextResponse.json(
+          { error: "Phone number must contain at least 10 digits" },
+          { status: 400 }
+        );
+      }
     }
 
     // Check if email is already taken by another member
@@ -43,6 +55,7 @@ export async function PATCH(request: NextRequest) {
     const updateData: any = { updatedAt: new Date() };
     if (name) updateData.name = name;
     if (email) updateData.email = email;
+    if (phoneNumber !== undefined) updateData.phoneNumber = phoneNumber || null;
 
     const [updatedMember] = await db
       .update(members)
@@ -52,6 +65,7 @@ export async function PATCH(request: NextRequest) {
         id: members.id,
         name: members.name,
         email: members.email,
+        phoneNumber: members.phoneNumber,
       });
 
     // Invalidate cache

@@ -93,6 +93,10 @@ export const signIn = validatedAction(signInSchema, async (data) => {
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(255),
   email: z.string().email("Invalid email address"),
+  phoneNumber: z
+    .string()
+    .min(10, "Phone number must be at least 10 digits")
+    .max(50),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
@@ -101,7 +105,7 @@ const signUpSchema = z.object({
 });
 
 export const signUp = validatedAction(signUpSchema, async (data) => {
-  const { name, email, password, token } = data;
+  const { name, email, phoneNumber, password, token } = data;
 
   // Validate invitation token
   const invitation = await db
@@ -149,6 +153,7 @@ export const signUp = validatedAction(signUpSchema, async (data) => {
     .values({
       email,
       name,
+      phoneNumber,
       passwordHash,
       status: "pending", // Will be updated to "unmatched" after onboarding
     })
